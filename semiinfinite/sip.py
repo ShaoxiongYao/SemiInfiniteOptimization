@@ -312,9 +312,10 @@ class ConstraintGenerationData:
         q = -P.dot(xdes)
         if regularizationFactor != 0:
             P = P + scipy.sparse.diags([regularizationFactor]*n,format='csc')
-        #A = scipy.sparse.csc_matrix(np.array(A))
+        A = scipy.sparse.csc_matrix(np.array(A))
         #this fails sometimes?
-        A = scipy.sparse.vstack(A,format='csc')
+        # NOTE: vstack fails when A is a list of 1-d arrays
+        # A = scipy.sparse.vstack(A,format='csc')
         #A = scipy.sparse.vstack([scipy.sparse.coo_matrix(v) for v in A],format='csc')
         b = np.asarray(b)
         l = -b + np.ones(m)*self.constraint_inflation
